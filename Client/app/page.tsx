@@ -1,0 +1,34 @@
+import Link from "next/link";
+import axios from "axios";
+import MockTable from "@/components/mocktable";
+
+export default async function Home() {
+  const { data } = await axios.get("http://localhost:4201/api/mocks/all");
+  console.log("Data from API:", data);
+
+  return (
+    <main>
+      <section>
+        <h1 className="text-center text-4xl font-light">Manage your mocks</h1>
+        <div className="bg-gray-100/40 py-64 w-full my-12 flex justify-center item-center">
+          {/* Repo Mock Empty page */}
+          {data.length === 0 ? (
+            <div className="flex flex-col gap-6">
+              <h1 className="self-center text-4xl font-light text-white">
+                Your mocky repository is empty...
+              </h1>
+              <Link
+                href="/design"
+                className="bg-emerald-600 text-white hover:bg-emerald-700 cursor-pointer rounded-lg self-center px-5 py-2.5 font-semibold uppercase text-sm"
+              >
+                Create New Mocks
+              </Link>
+            </div>
+          ) : (
+            <MockTable data={data} />
+          )}
+        </div>
+      </section>
+    </main>
+  );
+}
