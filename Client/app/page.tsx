@@ -1,10 +1,9 @@
 import Link from "next/link";
-import axios from "axios";
 import MockTable from "@/components/mocktable";
+import { fetchMocks } from "@/utils/server-actions";
 
 export default async function Home() {
-  const { data } = await axios.get("http://localhost:4201/api/mocks/all");
-  console.log("Data from API:", data);
+  const data = await fetchMocks();
 
   return (
     <main>
@@ -12,7 +11,7 @@ export default async function Home() {
         <h1 className="text-center text-4xl font-light">Manage your mocks</h1>
         <div className="bg-gray-100/40 py-64 w-full my-12 flex justify-center item-center">
           {/* Repo Mock Empty page */}
-          {data.length === 0 ? (
+          {Array.isArray(data) && data.length === 0 ? (
             <div className="flex flex-col gap-6">
               <h1 className="self-center text-4xl font-light text-white">
                 Your mocky repository is empty...
@@ -25,7 +24,7 @@ export default async function Home() {
               </Link>
             </div>
           ) : (
-            <MockTable data={data} />
+            <MockTable data={Array.isArray(data) ? data : []} />
           )}
         </div>
       </section>

@@ -17,7 +17,7 @@ export interface MockTableProps {
   data: MockFormData[]; // <-- Fix: should be an array
 }
 
-// Mock Table map
-export type MockTableMap = {
-  data: MockFormData[];
-};
+// // Mock Table map
+// export type MockTableMap = {
+//   data: MockFormData[];
+// };
