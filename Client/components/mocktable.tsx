@@ -9,8 +9,6 @@ export default function MockTable({ data }: MockTableProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<MockFormData | null>(null);
   
-  console.log(selectedData,"Check IT");
-  
   const handleViewClick = (data: MockFormData) => {
     setIsOpen(true);
     setSelectedData(data);

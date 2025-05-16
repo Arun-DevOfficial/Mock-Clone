@@ -29,7 +29,7 @@ const onSubmit = async (data: MockFormData): Promise<void> => {
   console.log("Form Data:", data);
 
   try {
-    const res = await axios.post("http://localhost:4201/api/mocks/new", data);
+    const res = await axios.post("https://mock-clone.onrender.com/api/mocks/new", data);
     if (!res.data) {
       throw new Error("response data is empty");
     }
