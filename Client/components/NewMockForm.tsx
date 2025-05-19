@@ -1,12 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addMock } from "@/features/mockSlice";
 import { ChevronDown } from "lucide-react";
 import { MockFormData } from "../types/mock";
 import axios from "axios";
 import Loader from "./Loader";
-import {RootState} from "@/Store/AppStore"
+import {useRouter} from "next/navigation";
 
 export default function NewMockForm() {
   const {
@@ -21,8 +21,7 @@ export default function NewMockForm() {
       httpBody: '{\n  "identifier": "6904c00d7-75d0-413a-b84b-35e155444678",\n  "login": "John Doe"\n  },\n  "permissions": {\n    "roles": [\n      "moderator"\n    ]\n  }\n}',
     },
   });
-  const { mocks } = useSelector((state: RootState) => state?.mock);
-  console.log("mocks", mocks);
+  const router = useRouter()
   const dispatch = useDispatch();
 
 const onSubmit = async (data: MockFormData): Promise<void> => {
@@ -34,6 +33,7 @@ const onSubmit = async (data: MockFormData): Promise<void> => {
       throw new Error("response data is empty");
     }
     dispatch(addMock(res.data)); 
+    router.push(`/design/confirmation/${res?.data?.id}`)
   } catch (err) {
     console.error("Error submitting form:", err);
   }

@@ -3,17 +3,10 @@
 import { MockTableProps, MockFormData } from "@/types/mock";
 import { Button } from "@/components/ui/button";
 import { Trash2, Eye } from "lucide-react";
-import axios from "axios";
+import { handleDeleteMock } from "@/utils/server-actions";
+import Link from "next/link";
 
 export default function MockTable({ data }: MockTableProps) {
-  //Todo : Delete a mock
-  const handleDelete = async (id: string | undefined) => {
-    try {
-      await axios.delete(`https://mock-clone.onrender.com/api/mocks/delete/${id}`);
-    } catch (error) {
-      console.error("Failed to delete mock:", error);
-    }
-  };
   return (
     <>
       <div className="relative overflow-x-auto shadow-md rounded-lg">
@@ -54,14 +47,16 @@ export default function MockTable({ data }: MockTableProps) {
                 </td>
                 <td className="px-6 py-4 text-center">
                   <div className="flex justify-center space-x-3">
-                    <Button variant={"ghost"} className="hover:text-emerald-600 cursor-pointer">
+                    <Link href={`/design/view/${item._id}`}
+                      className="hover:text-emerald-600 cursor-pointer flex items-center gap-1.5"
+                    >
                       <Eye className="w-4 h-4 mr-2 hover:text-emerald-600 cursor-pointer" />
                       View
-                    </Button>
+                    </Link>
                     <Button
                       variant={"ghost"}
                       className="text-red-500 hover:text-red-600 cursor-pointer"
-                      onClick={() => handleDelete(item._id)}
+                      onClick={() => handleDeleteMock(item._id)}
                     >
                       <Trash2 className="w-4 h-4 mr-2 text-red-500 hover:text-red-600 cursor-pointer" />
                       Delete
