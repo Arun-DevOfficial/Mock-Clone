@@ -6,8 +6,7 @@ interface PageProps {
   params: { id: string };
 }
 
-export default async function Page({ params }: PageProps) {
-   const { id } = await params;
+export default async function Page({ params:{id} }: PageProps) {
   const data = await getMockById(id);
 
   const parseJSON = (input: string) => {
