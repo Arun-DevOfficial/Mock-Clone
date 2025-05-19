@@ -2,9 +2,17 @@
 
 import { MockTableProps, MockFormData } from "@/types/mock";
 import { Button } from "@/components/ui/button";
-import { Trash2,Eye } from "lucide-react";
-
+import { Trash2, Eye } from "lucide-react";
+import axios from "axios";
 export default function MockTable({ data }: MockTableProps) {
+  //Todo : Delete a mock
+  const handleDelete = async (id: string | undefined) => {
+    try {
+      await axios.delete(`https://mock-clone.onrender.com/api/mocks/${id}`);
+    } catch (error) {
+      console.error("Failed to delete mock:", error);
+    }
+  };
   return (
     <>
       <div className="relative overflow-x-auto shadow-md rounded-lg">
@@ -49,7 +57,10 @@ export default function MockTable({ data }: MockTableProps) {
                       <Eye className="w-4 h-4 mr-2" />
                       View
                     </Button>
-                    <Button variant={"ghost"}>
+                    <Button
+                      variant={"ghost"}
+                      onClick={() => handleDelete(item._id)}
+                    >
                       <Trash2 className="w-4 h-4 mr-2" />
                       Delete
                     </Button>
