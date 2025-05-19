@@ -65,10 +65,17 @@ export const getMockById = async (req, res) => {
 export const deleteMock = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid mock ID" });
+    }
+
     const deletedMock = await MockResponse.findByIdAndDelete(id);
 
     if (!deletedMock) {
-      return res.status(404).json({ error: "Mock response not found" });
+      // Not found or already deleted
+      return res.status(404).json({ error: "Mock response not found or already deleted" });
     }
 
     res.status(200).json({ message: "Mock response deleted successfully" });
