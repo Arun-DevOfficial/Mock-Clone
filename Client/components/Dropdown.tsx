@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical,Trash2 } from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
 import { DialogBoxContent } from "@/components/DialogBox";
 
 export function DropdownMenuDemo() {
@@ -29,7 +29,6 @@ export function DropdownMenuDemo() {
           // onClick={onDelete}
           className="text-red-500 focus:text-red-600"
         >
-          <Trash2 className="w-4 h-4 mr-2"/>
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
