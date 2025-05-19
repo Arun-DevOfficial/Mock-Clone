@@ -1,16 +1,21 @@
 import Link from "next/link";
-import MockTable from "@/components/mocktable";
 import { fetchMocks } from "@/utils/server-actions";
+import { MockFormData } from "@/types/mock";
+import MockTable from "@/components/mocktable";
 
 export default async function Home() {
-  const data = await fetchMocks();
+  let data: MockFormData[] = [];
+  try {
+    data = await fetchMocks();
+  } catch (error) {
+    console.error("Failed to fetch mocks:", error);
+  }
 
   return (
     <main>
       <section>
         <h1 className="text-center text-4xl font-light">Manage your mocks</h1>
         <div className="bg-gray-100/40 py-64 w-full my-12 flex justify-center item-center">
-          {/* Repo Mock Empty page */}
           {Array.isArray(data) && data.length === 0 ? (
             <div className="flex flex-col gap-6">
               <h1 className="self-center text-4xl font-light text-white">

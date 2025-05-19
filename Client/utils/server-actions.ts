@@ -1,14 +1,15 @@
 import { MockFormData } from "@/types/mock";
 
 export async function fetchMocks(): Promise<MockFormData[]> {
-  try {
-    const res = await fetch("https://mock-clone.onrender.com/api/mocks/all", {
-      cache: "no-store",
-    });
-    const data = await res.json();
-    return Array.isArray(data) ? data : [];
-  } catch (e) {
-    console.log(e);
-    return [];
+  const response = await fetch(
+    "https://mock-clone.onrender.com/api/mocks/all",
+    {
+      next: { revalidate: 60 }, // Cache for 60 seconds
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch mocks");
   }
+  const data = await response.json();
+  return data;
 }
