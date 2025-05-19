@@ -4,7 +4,7 @@ export async function fetchMocks(): Promise<MockFormData[]> {
   const response = await fetch(
     "https://mock-clone.onrender.com/api/mocks/all",
     {
-      next: { revalidate: 60 }, // Cache for 60 seconds
+      cache: "no-store", // Always fetch fresh data
     }
   );
   if (!response.ok) {
