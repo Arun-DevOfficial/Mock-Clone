@@ -9,7 +9,7 @@ export default function MockTable({ data }: MockTableProps) {
   //Todo : Delete a mock
   const handleDelete = async (id: string | undefined) => {
     try {
-      await axios.delete(`https://mock-clone.onrender.com/api/mocks/${id}`);
+      await axios.delete(`https://mock-clone.onrender.com/api/mocks/delete/${id}`);
     } catch (error) {
       console.error("Failed to delete mock:", error);
     }
@@ -54,16 +54,16 @@ export default function MockTable({ data }: MockTableProps) {
                 </td>
                 <td className="px-6 py-4 text-center">
                   <div className="flex justify-center space-x-3">
-                    <Button variant={"ghost"} className="text-emerald-500 hover:text-emerald-600">
-                      <Eye className="w-4 h-4 mr-2 text-emerald-500 hover:text-emerald-600" />
+                    <Button variant={"ghost"} className="hover:text-emerald-600 cursor-pointer">
+                      <Eye className="w-4 h-4 mr-2 hover:text-emerald-600 cursor-pointer" />
                       View
                     </Button>
                     <Button
                       variant={"ghost"}
-                      className="text-red-500 hover:text-red-600"
+                      className="text-red-500 hover:text-red-600 cursor-pointer"
                       onClick={() => handleDelete(item._id)}
                     >
-                      <Trash2 className="w-4 h-4 mr-2 text-red-500 hover:text-red-600" />
+                      <Trash2 className="w-4 h-4 mr-2 text-red-500 hover:text-red-600 cursor-pointer" />
                       Delete
                     </Button>
                   </div>

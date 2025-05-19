@@ -15,7 +15,7 @@ export default async function Home() {
     <main>
       <section>
         <h1 className="text-center text-4xl font-light">Manage your mocks</h1>
-        <div className="bg-gray-100/40 py-64 w-full my-12 flex justify-center item-center">
+        <div className="bg-gray-100/40 py-32 w-full my-12 flex justify-center item-center">
           {Array.isArray(data) && data.length === 0 ? (
             <div className="flex flex-col gap-6">
               <h1 className="self-center text-4xl font-light text-white">
