@@ -10,8 +10,9 @@ export type MockFormData = {
   name?: string;
   description?: string;
   date?: string;
+  deleteUrl?: string;
+  endpointUrl?: string;
 };
-
 // Mock table props
 export interface MockTableProps {
   data: MockFormData[]; // <-- Fix: should be an array

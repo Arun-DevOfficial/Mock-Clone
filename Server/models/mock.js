@@ -1,6 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
 const mockResponseSchema = new Schema({
+  identifier: {
+    type: String,
+    default: "response",
+  },
   contentType: {
     type: String,
     default: "application/json",
@@ -16,6 +20,10 @@ const mockResponseSchema = new Schema({
   httpBody: {
     type: Schema.Types.Mixed,
     default: {},
+  },
+  endpointUrl: {
+    type: String,
+    required: true,
   },
   createdAt: {
     type: Date,

@@ -6,33 +6,52 @@ export const createMock = async (req, res) => {
   try {
     const data = req.body;
 
-    // Store the received data as an object
-    const savedMock = await new MockResponse({
-      httpBody: data, 
-    }).save();
+    // Validate request body
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ error: "Request body cannot be empty" });
+    }
 
-    const EndpointUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/api/mocks/response/${savedMock._id}`;
-    const deleteUrl = `${req.protocol}://${req.get("host")}/api/mocks/delete/${
-      savedMock._id
-    }`;
-    res.status(201).json({
+    // Generate URLs
+    const host = `${req.protocol}://${req.get("host")}`;
+    const endpointUrl = `${host}/api/mocks/response`;
+    const deleteUrl = `${host}/api/mocks/delete`;
+
+    // Sanity check
+    if (!endpointUrl) {
+      return res
+        .status(400)
+        .json({ message: "Error while creating endpoint URL. Try again!" });
+    }
+
+    // Store data and URLs in the database
+    const newMock = new MockResponse({
+      httpBody: data,
+      endpointUrl,
+    })
+
+    await newMock.save();
+
+    // Respond with the created mock details
+    return res.status(201).json({
       message: "Mock created successfully",
-      endpoint: EndpointUrl,
-      id: savedMock._id,
-      deleteUrl: deleteUrl,
+      endpoint: `${endpointUrl}/${newMock._id}`,
+      id: newMock._id,
+      deleteUrl: `${deleteUrl}/${newMock._id}`,
     });
   } catch (error) {
     console.error("Error creating mock:", error.message);
-    res.status(500).json({ error: "Failed to create mock" });
+    return res.status(500).json({ error: `Failed to create mock: ${error.message}` });
   }
 };
+
 
 // Get all mock responses
 export const getAllMocks = async (req, res) => {
   try {
     const mocks = await MockResponse.find();
+    if (!mocks) {
+      throw new Error("No mocks created yet!");
+    }
     res.status(200).json(mocks);
   } catch (error) {
     console.error("Error fetching mock responses:", error);
@@ -75,7 +94,9 @@ export const deleteMock = async (req, res) => {
 
     if (!deletedMock) {
       // Not found or already deleted
-      return res.status(404).json({ error: "Mock response not found or already deleted" });
+      return res
+        .status(404)
+        .json({ error: "Mock response not found or already deleted" });
     }
 
     res.status(200).json({ message: "Mock response deleted successfully" });
