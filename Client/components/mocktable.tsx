@@ -4,6 +4,7 @@ import { MockTableProps, MockFormData } from "@/types/mock";
 import { Button } from "@/components/ui/button";
 import { Trash2, Eye } from "lucide-react";
 import axios from "axios";
+
 export default function MockTable({ data }: MockTableProps) {
   //Todo : Delete a mock
   const handleDelete = async (id: string | undefined) => {
@@ -53,15 +54,16 @@ export default function MockTable({ data }: MockTableProps) {
                 </td>
                 <td className="px-6 py-4 text-center">
                   <div className="flex justify-center space-x-3">
-                    <Button variant={"ghost"}>
-                      <Eye className="w-4 h-4 mr-2" />
+                    <Button variant={"ghost"} className="text-emerald-500 hover:text-emerald-600">
+                      <Eye className="w-4 h-4 mr-2 text-emerald-500 hover:text-emerald-600" />
                       View
                     </Button>
                     <Button
                       variant={"ghost"}
+                      className="text-red-500 hover:text-red-600"
                       onClick={() => handleDelete(item._id)}
                     >
-                      <Trash2 className="w-4 h-4 mr-2" />
+                      <Trash2 className="w-4 h-4 mr-2 text-red-500 hover:text-red-600" />
                       Delete
                     </Button>
                   </div>
