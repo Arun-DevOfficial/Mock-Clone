@@ -3,10 +3,11 @@ import Link from "next/link";
 import { MoveLeft } from "lucide-react";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default async function Page({ params:{id} }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const { id } = await params;
   const data = await getMockById(id);
 
   const parseJSON = (input: string) => {
@@ -14,7 +15,7 @@ export default async function Page({ params:{id} }: PageProps) {
       const cleaned = input?.replace(/,\s*}/g, "}")?.replace(/,\s*]/g, "]");
       return JSON.parse(cleaned || "{}");
     } catch {
-      return input; // fallback to raw string
+      return input;
     }
   };
 
@@ -22,13 +23,13 @@ export default async function Page({ params:{id} }: PageProps) {
   const body = parseJSON(data.httpBody);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 sm:p-6 lg:p-8 flex justify-center items-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 sm:p-6 lg:p-8 flex flex-col justify-center items-center">
       <div className="w-full max-w-4xl mx-auto">
         <div className="bg-white/80 backdrop-blur-sm border border-white/20 rounded-xl shadow-lg shadow-slate-200/50 overflow-hidden">
           {/* Header */}
           <div className="border-b border-slate-200/60 bg-white/40 px-6 py-4 flex items-center gap-2.5">
             <Link href="/">
-              <MoveLeft size={22}/>
+              <MoveLeft size={22} />
             </Link>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
               Mock Details
