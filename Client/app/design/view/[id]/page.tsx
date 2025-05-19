@@ -7,7 +7,8 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  const data = await getMockById(params?.id);
+   const { id } = await params;
+  const data = await getMockById(id);
 
   const parseJSON = (input: string) => {
     try {

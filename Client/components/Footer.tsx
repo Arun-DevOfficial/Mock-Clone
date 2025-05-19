@@ -1,40 +1,33 @@
-import { Github, Twitter } from "lucide-react";
+import { Github, Headset } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full py-6">
-      <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="text-center md:text-left">
-          <h1 className="font-semibold text-lg mb-2">FAQ</h1>
-          <div className="flex flex-col md:flex-row gap-2 md:gap-5 items-center text-sm text-gray-600">
-            <p>&copy; {new Date().getFullYear()} Guvi Geek Private Ltd</p>
-            <p>Privacy Policy</p>
-            <p>Cookie Policy</p>
-          </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-gray-600">
+    <footer className="py-4">
+      <div className="container max-w-[60%] mx-auto flex justify-between items-center border-t border-gray-200 pt-4">
+        <ul className="flex gap-4 items-center">
           <Link
-            href="https://github.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:text-black transition"
+            href="#"
+            className="font-medium text-md flex items-center gap-1"
           >
-            <p>Be an awesome Hacker, fork me</p>
-            <Github className="w-5 h-5" />
+            <Github size={18} />
+            Github
           </Link>
-
           <Link
-            href="https://twitter.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:text-black transition"
+            href="#"
+            className="font-medium text-md flex items-center gap-1"
           >
-            <p>Made with love by @abstractapi</p>
-            <Twitter className="w-5 h-5" />
+            API Docs
           </Link>
-        </div>
+          <Link
+            href="#"
+            className="font-medium text-md flex items-center gap-1"
+          >
+            <Headset size={18}/>
+            Contact
+          </Link>
+        </ul>
+        <span>©{new Date().getFullYear()}</span>
       </div>
     </footer>
   );
