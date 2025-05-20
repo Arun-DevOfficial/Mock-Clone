@@ -35,13 +35,14 @@ export default function NewMockForm() {
   // };
 
   const onSubmit = async (data: MockFormData): Promise<void> => {
+    console.log(data);
     try {
       const parsedData = {
         ...data,
         httpHeader: data.httpHeader
           ? ConverToParse(data.httpHeader)
-          : undefined,
-        httpBody: data.httpBody ? ConverToParse(data.httpBody) : undefined,
+          : data.httpHeader,
+        httpBody: data.httpBody ? ConverToParse(data.httpBody) : data.httpBody,
       };
       console.log(parsedData);
       const res = await axios.post(

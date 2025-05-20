@@ -1,24 +1,17 @@
-function parseString(input: string): object | null {
-  // Remove escaped newlines \n and trim spaces
-  let cleaned: string = input.replace(/\\n/g, "").trim();
-
-  // If it looks like a stringified JSON array or object (starts and ends with quotes)
-  if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
-    // Remove wrapping quotes
-    cleaned = cleaned.slice(1, -1);
-    // Unescape inner quotes
-    cleaned = cleaned.replace(/\\"/g, '"');
-  }
-
-  // For something like { message:"Hello World" }, add quotes around keys
-  cleaned = cleaned.replace(/([{,])\s*(\w+)\s*:/g, '$1"$2":');
-
+function parseString(input: string): Record<string, any>[] {
   try {
-    return JSON.parse(cleaned);
-  } catch (e) {
-    console.error("Parsing error:", e);
-    return null;
+    const parsed = JSON.parse(input);
+
+    if (Array.isArray(parsed)) {
+      return parsed;
+    } else if (typeof parsed === "object" && parsed !== null) {
+      return [parsed]; // wrap single object in an array
+    } else {
+      throw new Error("Parsed result is not valid");
+    }
+  } catch (err) {
+    console.error("Failed to parse JSON:", (err as Error).message);
+    return []; // return empty array on failure
   }
 }
-
 export default parseString;

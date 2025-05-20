@@ -53,5 +53,6 @@ export async function getMockById(id: string) {
     throw new Error("Failed to fetch mock by id");
   }
   const data = await response.json();
+  console.log("Server Actions");
   return data;
 }
