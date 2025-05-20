@@ -48,26 +48,26 @@ export default function MockTable({ data }: MockTableProps) {
                 key={index}
                 className="hover:bg-gray-100 transition-colors duration-200 border-b border-gray-100"
               >
-                <td className="px-6 py-4 whitespace-nowrap">{item._id}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{item?.identifier}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.contentType || "-"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {item.createdAt
-                    ? new Date(item.createdAt).toLocaleString()
+                  {item?.createdAt
+                    ? new Date(item?.createdAt).toLocaleString()
                     : "-"}
                 </td>
                 <td className="px-6 py-4 text-center">
                   <div className="flex justify-center space-x-3">
                     <Button
                       variant="ghost"
-                      onClick={() => handleViewMock(item.endpointUrl, item._id)}
+                      onClick={() => handleViewMock(item?.endpointUrl, item?._id)}
                       className="hover:text-emerald-600 cursor-pointer flex items-center gap-1.5"
                     >
                       <Eye className="w-4 h-4 mr-2 hover:text-emerald-600 cursor-pointer" />
                       View
                     </Button>
-                    <AlertDialogDemo mockId={item._id} />
+                    <AlertDialogDemo mockId={item?._id} />
                   </div>
                 </td>
               </tr>

@@ -5,7 +5,7 @@ export type MockFormData = {
   httpBody: string;
   createdAt: string;
   httpHeader?: string;
-  Identifier: string;
+  identifier: string;
   _v: number;
   _id?: string;
   name?: string;

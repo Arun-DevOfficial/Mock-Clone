@@ -215,7 +215,7 @@ export default function NewMockForm() {
           </div>
           <input
             id="apiName"
-            {...register("Identifier", {
+            {...register("identifier", {
               required: "API name is required",
               minLength: {
                 value: 3,
@@ -224,13 +224,13 @@ export default function NewMockForm() {
             })}
             type="text"
             className={`w-full border focus:outline-none border-gray-300 rounded-md px-4 py-3 text-base focus:border-emerald-400 ${
-              errors.Identifier ? "border-red-500" : ""
+              errors.identifier ? "border-red-500" : ""
             }`}
             placeholder="My Mock API"
           />
-          {errors.Identifier && (
+          {errors.identifier && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.Identifier.message}
+              {errors.identifier.message}
             </p>
           )}
           <p className="text-xs text-gray-500 mt-2">

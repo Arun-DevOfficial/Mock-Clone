@@ -5,7 +5,10 @@ import MockResponse from "../models/mock.js";
 export const createMock = async (req, res) => {
   try {
     const data = req.body;
-
+    //validate data
+    if (!data) {
+      return res.status(400).json({ message: "No data provided" });
+    }
     const host = `${req.protocol}://${req.get("host")}`;
     const endpointUrl = `${host}/api/mocks/response`;
     const deleteUrl = `${host}/api/mocks/delete`;
@@ -16,10 +19,10 @@ export const createMock = async (req, res) => {
         .json({ message: "Error while creating endpoint URL. Try again!" });
     }
     const newMock = new MockResponse({
-      identifier: data.identifier ,
-      contentType: data.contentType, 
+      identifier: data.identifier,
+      contentType: data.contentType,
       charset: data.charset,
-      httpHeaders: data.httpHeaders, 
+      httpHeaders: data.httpHeaders,
       httpBody: data.httpBody,
       endpointUrl,
     });
