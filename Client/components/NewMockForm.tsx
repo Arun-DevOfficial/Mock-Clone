@@ -13,20 +13,11 @@ export default function NewMockForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<MockFormData>({
-    defaultValues: {
-      contentType: "application/json",
-      charset: "UTF-8",
-      httpHeader: '{\n  "X-Foo-Bar": "Hello World"\n}',
-      httpBody:
-        '{\n  "identifier": "6904c00d7-75d0-413a-b84b-35e155444678",\n  "login": "John Doe"\n  },\n  "permissions": {\n    "roles": [\n      "moderator"\n    ]\n  }\n}',
-    },
-  });
+  } = useForm<MockFormData>();
   const router = useRouter();
   const dispatch = useDispatch();
 
   const onSubmit = async (data: MockFormData): Promise<void> => {
-    console.log(data);
     try {
       const res = await axios.post(
         "https://mock-clone.onrender.com/api/mocks/new",
@@ -63,7 +54,7 @@ export default function NewMockForm() {
                   required: "Content Type is required",
                 })}
                 className="w-full border border-gray-300 rounded px-3 py-2 pr-10 bg-white text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-300"
-                defaultValue=""
+                defaultValue="application/json"
               >
                 <option disabled value="">
                   Select content type
@@ -107,7 +98,7 @@ export default function NewMockForm() {
                   required: "Charset is required",
                 })}
                 className="w-full border border-gray-300 rounded px-3 py-2 pr-10 bg-white text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-300"
-                defaultValue=""
+                defaultValue="utf-8"
               >
                 <option disabled value="">
                   Select charset
@@ -150,6 +141,7 @@ export default function NewMockForm() {
             {...register("httpHeader")}
             style={{ minHeight: "75px" }}
             className="w-full border focus:outline-none border-gray-300 rounded px-3 py-2 h-24 font-mono text-sm focus:border-emerald-400"
+            placeholder={'{"X-Foo-Bar":"Hello World"}'}
           />
           <p className="text-xs text-gray-500 mt-1">
             Customize the HTTP headers sent in the response. Define the headers
@@ -172,6 +164,9 @@ export default function NewMockForm() {
             {...register("httpBody")}
             className="w-full border border-gray-300 rounded px-3 py-2 h-32 font-mono text-sm focus:outline-none focus:border-emerald-400"
             style={{ minHeight: "220px" }}
+            placeholder={
+              '{\n  "identifier": "6904c00d7-75d0-413a-b84b-35e155444678",\n  "login": "John Doe"\n  },\n  "permissions": {\n    "roles": [\n      "moderator"\n    ]\n  }\n}'
+            }
           />
         </div>
 

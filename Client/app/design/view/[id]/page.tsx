@@ -18,7 +18,7 @@ export default async function Page({ params }: PageProps) {
       return input;
     }
   };
-
+  
   const headers = parseJSON(data.httpHeader);
   const body = parseJSON(data.httpBody);
 

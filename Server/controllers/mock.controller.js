@@ -6,32 +6,42 @@ export const createMock = async (req, res) => {
   try {
     const data = req.body;
 
-    // Validate request body
     if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ error: "Request body cannot be empty" });
     }
 
-    // Generate URLs
+    // Validate required httpBody property exists and is array or object
+    if (
+      !data.httpBody ||
+      !(Array.isArray(data.httpBody) || typeof data.httpBody === "object")
+    ) {
+      return res
+        .status(400)
+        .json({ error: "httpBody is required and must be an array or object" });
+    }
+
     const host = `${req.protocol}://${req.get("host")}`;
     const endpointUrl = `${host}/api/mocks/response`;
     const deleteUrl = `${host}/api/mocks/delete`;
 
-    // Sanity check
     if (!endpointUrl) {
       return res
         .status(400)
         .json({ message: "Error while creating endpoint URL. Try again!" });
     }
 
-    // Store data and URLs in the database
+    // Make sure to explicitly assign fields (optional but safer)
     const newMock = new MockResponse({
-      httpBody: data,
+      identifier: data.identifier || "response",
+      contentType: data.contentType || "application/json",
+      charset: data.charset || "UTF-8",
+      httpHeaders: data.httpHeaders || {},
+      httpBody: data.httpBody,
       endpointUrl,
     });
 
     await newMock.save();
 
-    // Respond with the created mock details
     return res.status(201).json({
       message: "Mock created successfully",
       endpoint: `${endpointUrl}/${newMock._id}`,
@@ -87,15 +97,19 @@ export const getMockById = async (req, res) => {
     }
 
     const mock = await MockResponse.findById(req.params.id);
-    if (!mock && !mock?.httpBody) {
+
+    if (!mock) {
       return res.status(404).json({ error: "Mock not found" });
     }
-    res.status(200).json(mock?.httpBody);
+
+    // Return Http Body
+    return res.status(200).json(mock.httpBody);
   } catch (error) {
     console.error(`Error fetching mock ${req.params.id}:`, error.message);
-    res.status(500).json({ error: "Failed to fetch mock" });
+    return res.status(500).json({ error: "Failed to fetch mock" });
   }
 };
+
 // Delete a mock response by ID
 export const deleteMock = async (req, res) => {
   try {

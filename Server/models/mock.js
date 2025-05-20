@@ -13,10 +13,10 @@ const mockResponseSchema = new Schema({
     type: String,
     default: "UTF-8",
   },
-  // httpHeaders: {
-  //   type: mongoose.Schema.Types.Mixed,
-  //   default: {},
-  // },
+  httpHeaders: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
   httpBody: {
     type: Schema.Types.Mixed,
     default: {},
