@@ -6,20 +6,6 @@ export const createMock = async (req, res) => {
   try {
     const data = req.body;
 
-    if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: "Request body cannot be empty" });
-    }
-
-    // Validate required httpBody property exists and is array or object
-    if (
-      !data.httpBody ||
-      !(Array.isArray(data.httpBody) || typeof data.httpBody === "object")
-    ) {
-      return res
-        .status(400)
-        .json({ error: "httpBody is required and must be an array or object" });
-    }
-
     const host = `${req.protocol}://${req.get("host")}`;
     const endpointUrl = `${host}/api/mocks/response`;
     const deleteUrl = `${host}/api/mocks/delete`;
@@ -29,13 +15,11 @@ export const createMock = async (req, res) => {
         .status(400)
         .json({ message: "Error while creating endpoint URL. Try again!" });
     }
-
-    // Make sure to explicitly assign fields (optional but safer)
     const newMock = new MockResponse({
-      identifier: data.identifier || "response",
-      contentType: data.contentType || "application/json",
-      charset: data.charset || "UTF-8",
-      httpHeaders: data.httpHeaders || {},
+      identifier: data.identifier ,
+      contentType: data.contentType, 
+      charset: data.charset,
+      httpHeaders: data.httpHeaders, 
       httpBody: data.httpBody,
       endpointUrl,
     });
