@@ -7,6 +7,7 @@ import { MockFormData } from "../types/mock";
 import axios from "axios";
 import Loader from "./Loader";
 import { useRouter } from "next/navigation";
+import ConverToParse from "@/utils/converToParse";
 
 export default function NewMockForm() {
   const {
@@ -17,15 +18,41 @@ export default function NewMockForm() {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  // const onSubmit = async (data: MockFormData): Promise<void> => {
+  //   try {
+  //     const res = await axios.post(
+  //       "https://mock-clone.onrender.com/api/mocks/new",
+  //       data
+  //     );
+  //     if (!res.data) {
+  //       throw new Error("response data is empty");
+  //     }
+  //     dispatch(addMock(res.data));
+  //     router.push(`/design/confirmation/${res?.data?.id}`);
+  //   } catch (err) {
+  //     console.error("Error submitting form:", err);
+  //   }
+  // };
+
   const onSubmit = async (data: MockFormData): Promise<void> => {
     try {
+      const parsedData = {
+        ...data,
+        httpHeader: data.httpHeader
+          ? ConverToParse(data.httpHeader)
+          : undefined,
+        httpBody: data.httpBody ? ConverToParse(data.httpBody) : undefined,
+      };
+      console.log(parsedData);
       const res = await axios.post(
         "https://mock-clone.onrender.com/api/mocks/new",
-        data
+        parsedData
       );
+
       if (!res.data) {
         throw new Error("response data is empty");
       }
+
       dispatch(addMock(res.data));
       router.push(`/design/confirmation/${res?.data?.id}`);
     } catch (err) {
