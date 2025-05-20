@@ -26,8 +26,7 @@ export default function NewMockForm() {
   const dispatch = useDispatch();
 
   const onSubmit = async (data: MockFormData): Promise<void> => {
-    console.log("Form Data:", data);
-
+    console.log(data);
     try {
       const res = await axios.post(
         "https://mock-clone.onrender.com/api/mocks/new",

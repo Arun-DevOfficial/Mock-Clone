@@ -27,7 +27,7 @@ export const createMock = async (req, res) => {
     const newMock = new MockResponse({
       httpBody: data,
       endpointUrl,
-    })
+    });
 
     await newMock.save();
 
@@ -40,10 +40,11 @@ export const createMock = async (req, res) => {
     });
   } catch (error) {
     console.error("Error creating mock:", error.message);
-    return res.status(500).json({ error: `Failed to create mock: ${error.message}` });
+    return res
+      .status(500)
+      .json({ error: `Failed to create mock: ${error.message}` });
   }
 };
-
 
 // Get all mock responses
 export const getAllMocks = async (req, res) => {
@@ -86,12 +87,10 @@ export const getMockById = async (req, res) => {
     }
 
     const mock = await MockResponse.findById(req.params.id);
-    if (!mock) {
+    if (!mock && !mock?.httpBody) {
       return res.status(404).json({ error: "Mock not found" });
     }
-
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(mock.httpBody);
+    res.status(200).json(mock?.httpBody);
   } catch (error) {
     console.error(`Error fetching mock ${req.params.id}:`, error.message);
     res.status(500).json({ error: "Failed to fetch mock" });
