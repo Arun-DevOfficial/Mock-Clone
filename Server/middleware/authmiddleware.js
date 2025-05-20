@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
+import { configDotenv } from "dotenv";
 
+configDotenv();
 // Express middleware to protect routes
 export const authMiddleware = (req, res, next) => {
   // Get token from Authorization header

@@ -1,3 +1,5 @@
+"use client";
+
 import { Github, Headset } from "lucide-react";
 import Link from "next/link";
 

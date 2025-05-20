@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 import { userTypes } from "@/types/users";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { setUsername, updateUser } from "@/features/userslice";
+
 import axios from "axios";
 
 export default function SignUp() {
@@ -21,20 +20,16 @@ export default function SignUp() {
     },
   });
 
-  const dispatch = useDispatch();
   const router = useRouter();
 
   // Login user
   const onSubmit = async (data: userTypes) => {
     try {
-      const { email } = data;
-      dispatch(setUsername(email));
       // Send user data to server
       const res = await axios.post("https://mock-clone.onrender.com/api/auth/signup", data);
       // Validate user response
       if (res.status === 200) {
-        dispatch(updateUser(res.data));
-        router.push("/"); // navigate to home page
+        router.push("/signin"); // navigate to Login page
       }
     } catch (error) {
       console.error("Failed to dispatch username:", error);

@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Grovy",
-  description: "Generate Mock API Responses",
+  description: "Generate Grovy API Responses",
 };
 
 export default function RootLayout({

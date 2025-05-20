@@ -1,7 +1,8 @@
 // Todo : To secure user type
 export type userTypes = {
   email: string;
-  password: string;
+  password?: string;
+  token?:string
 };
 
 

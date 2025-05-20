@@ -6,7 +6,7 @@ import { userTypes } from "@/types/users";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setUsername, updateUser } from "@/features/userslice";
+import { setLocalStorage } from "@/features/userslice";
 import axios from "axios";
 
 export default function SignIn() {
@@ -17,7 +17,7 @@ export default function SignIn() {
   } = useForm<userTypes>({
     defaultValues: {
       email: "",
-      password:"",
+      password: "",
     },
   });
 
@@ -27,13 +27,14 @@ export default function SignIn() {
   // Login user
   const onSubmit = async (data: userTypes) => {
     try {
-      const { email } = data;
-      dispatch(setUsername(email));
       // Send user data to server
-      const res = await axios.post("https://mock-clone.onrender.com/api/auth/signin", data);
+      const res = await axios.post(
+        "https://mock-clone.onrender.com/api/auth/signin",
+        data
+      );
       // Validate user response
       if (res.status === 200) {
-        dispatch(updateUser(res.data));
+        dispatch(setLocalStorage(res.data));
         router.push("/"); // navigate to home page
       }
     } catch (error) {
