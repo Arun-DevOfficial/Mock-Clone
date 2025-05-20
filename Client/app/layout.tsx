@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mock Generator",
+  title: "Grovy",
   description: "Generate Mock API Responses",
 };
 

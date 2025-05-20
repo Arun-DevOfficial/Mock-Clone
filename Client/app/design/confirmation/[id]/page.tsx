@@ -20,7 +20,7 @@ export default function ConfirmationPage() {
 
   if (!mock) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="bg-white p-8 rounded-2xl border border-red-100">
           <div className="text-center">
             <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
@@ -35,7 +35,7 @@ export default function ConfirmationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 flex justify-center items-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-12 px-4 flex justify-center items-center">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-xl shadow border border-gray-100 overflow-hidden">
           {/* Header */}

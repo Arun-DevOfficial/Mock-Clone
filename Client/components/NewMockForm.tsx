@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { MockFormData } from "../types/mock";
 import axios from "axios";
 import Loader from "./Loader";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function NewMockForm() {
   const {
@@ -18,26 +18,30 @@ export default function NewMockForm() {
       contentType: "application/json",
       charset: "UTF-8",
       httpHeader: '{\n  "X-Foo-Bar": "Hello World"\n}',
-      httpBody: '{\n  "identifier": "6904c00d7-75d0-413a-b84b-35e155444678",\n  "login": "John Doe"\n  },\n  "permissions": {\n    "roles": [\n      "moderator"\n    ]\n  }\n}',
+      httpBody:
+        '{\n  "identifier": "6904c00d7-75d0-413a-b84b-35e155444678",\n  "login": "John Doe"\n  },\n  "permissions": {\n    "roles": [\n      "moderator"\n    ]\n  }\n}',
     },
   });
-  const router = useRouter()
+  const router = useRouter();
   const dispatch = useDispatch();
 
-const onSubmit = async (data: MockFormData): Promise<void> => {
-  console.log("Form Data:", data);
+  const onSubmit = async (data: MockFormData): Promise<void> => {
+    console.log("Form Data:", data);
 
-  try {
-    const res = await axios.post("https://mock-clone.onrender.com/api/mocks/new", data);
-    if (!res.data) {
-      throw new Error("response data is empty");
+    try {
+      const res = await axios.post(
+        "https://mock-clone.onrender.com/api/mocks/new",
+        data
+      );
+      if (!res.data) {
+        throw new Error("response data is empty");
+      }
+      dispatch(addMock(res.data));
+      router.push(`/design/confirmation/${res?.data?.id}`);
+    } catch (err) {
+      console.error("Error submitting form:", err);
     }
-    dispatch(addMock(res.data)); 
-    router.push(`/design/confirmation/${res?.data?.id}`)
-  } catch (err) {
-    console.error("Error submitting form:", err);
-  }
-};
+  };
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
@@ -176,17 +180,10 @@ const onSubmit = async (data: MockFormData): Promise<void> => {
         <div className="flex items-center">
           <button
             type="submit"
-            className="bg-emerald-600 cursor-pointer hover:bg-emerald-700 uppercase text-white px-4 py-2 rounded font-medium"
+            className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 uppercase text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center min-w-48 shadow-md hover:shadow-lg disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
-            {isSubmitting ? (
-              <div className="flex items-center gap-x-1.5">
-                <p>Creating Mock...</p>
-                <Loader />
-              </div>
-            ) : (
-              "Generate Http Response"
-            )}
+            {isSubmitting ? <Loader /> : "Generate Http Response"}
           </button>
         </div>
       </form>

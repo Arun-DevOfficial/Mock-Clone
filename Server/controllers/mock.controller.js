@@ -63,6 +63,22 @@ export const getAllMocks = async (req, res) => {
 };
 
 // Get a mock response by ID
+// export const getMockById = async (req, res) => {
+//   try {
+//     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+//       return res.status(400).json({ error: "Invalid mock ID" });
+//     }
+
+//     const mock = await MockResponse.findById(req.params.id);
+//     if (!mock) {
+//       return res.status(404).json({ error: "Mock not found" });
+//     }
+//     res.status(200).json(mock.httpBody);
+//   } catch (error) {
+//     console.error(`Error fetching mock ${req.params.id}:`, error.message);
+//     res.status(500).json({ error: "Failed to fetch mock" });
+//   }
+// };
 export const getMockById = async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -73,13 +89,14 @@ export const getMockById = async (req, res) => {
     if (!mock) {
       return res.status(404).json({ error: "Mock not found" });
     }
+
+    res.setHeader("Content-Type", "application/json");
     res.status(200).json(mock.httpBody);
   } catch (error) {
     console.error(`Error fetching mock ${req.params.id}:`, error.message);
     res.status(500).json({ error: "Failed to fetch mock" });
   }
 };
-
 // Delete a mock response by ID
 export const deleteMock = async (req, res) => {
   try {

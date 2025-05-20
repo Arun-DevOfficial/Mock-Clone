@@ -27,8 +27,8 @@ export function AlertDialogDemo({ mockId }: { mockId: string | undefined }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" className="inline-flex items-center">
-          <Trash2 className="mr-2 h-4 w-4" />
+        <Button variant="ghost" className="inline-flex items-center cursor-pointer hover:text-red-500">
+          <Trash2 className="mr-2 h-4 w-4 hover:text-red-500 cursor-pointer" />
           Delete
         </Button>
       </AlertDialogTrigger>
@@ -44,7 +44,7 @@ export function AlertDialogDemo({ mockId }: { mockId: string | undefined }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete}>Yes, Delete</AlertDialogAction>
+          <AlertDialogAction onClick={onDelete} className="bg-emerald-600 hover:bg-emerald-500 text-white">Yes, Delete</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

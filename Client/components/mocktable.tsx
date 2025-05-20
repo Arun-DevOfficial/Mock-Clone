@@ -3,12 +3,12 @@
 import { MockTableProps, MockFormData } from "@/types/mock";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
-
+// import axios from "axios";
 import { AlertDialogDemo } from "@/components/Alert";
 
 export default function MockTable({ data }: MockTableProps) {
-  //Todo : to view response from server
-  const handleViewMock = (
+  // Todo: to view response from server
+   const handleViewMock = (
     baseUrl: string | undefined,
     id: string | undefined
   ) => {
@@ -17,8 +17,9 @@ export default function MockTable({ data }: MockTableProps) {
       return;
     }
 
+    // Open the API endpoint in a new tab
     const fullUrl = `${baseUrl}/${id}`;
-    window.location.href = fullUrl;
+    window.open(fullUrl, "_blank");
   };
 
   return (
@@ -27,18 +28,15 @@ export default function MockTable({ data }: MockTableProps) {
         <table className="w-full text-left">
           <thead className="bg-black text-white">
             <tr>
-              <th className="px-6 py-3 font-semibold text-sm tracking-wider border-b border-black ">
+              <th className="px-6 py-3 font-semibold text-sm tracking-wider border-b border-black">
                 Name
               </th>
-              <th className="px-6 py-3 font-semibold text-sm tracking-wider border-b border-black ">
+              <th className="px-6 py-3 font-semibold text-sm tracking-wider border-b border-black">
                 Content Type
               </th>
-              <th className="text-center px-6 py-3 font-semibold text-sm tracking-wider border-b border-black ">
+              <th className="text-center px-6 py-3 font-semibold text-sm tracking-wider border-b border-black">
                 Date
               </th>
-              {/* <th className="px-6 py-3 font-semibold text-sm tracking-wider border-b border-black ">
-                HTTP Header
-              </th> */}
               <th className="px-6 py-3 font-semibold text-sm tracking-wider border-b border-black text-center">
                 Actions
               </th>
@@ -69,13 +67,7 @@ export default function MockTable({ data }: MockTableProps) {
                       <Eye className="w-4 h-4 mr-2 hover:text-emerald-600 cursor-pointer" />
                       View
                     </Button>
-                    <Button
-                      variant={"ghost"}
-                      className="text-red-500 hover:text-red-600 cursor-pointer"
-                      // onClick={() => handleDeleteMock(item._id)}
-                    >
-                      <AlertDialogDemo mockId={item._id}/>
-                    </Button>
+                    <AlertDialogDemo mockId={item._id} />
                   </div>
                 </td>
               </tr>
@@ -83,7 +75,7 @@ export default function MockTable({ data }: MockTableProps) {
           </tbody>
         </table>
       </div>
-      {/* {isOpen && <Model onClose={() => setIsOpen(false)} data={selectedData} />} */}
     </>
   );
 }
+

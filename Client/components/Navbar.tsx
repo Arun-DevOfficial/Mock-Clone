@@ -2,11 +2,11 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <header className="py-4 container mx-auto max-w-[65%]">
+    <header className="py-4 container mx-auto w-full max-w-[65%]">
       <nav className="flex items-center justify-between px-4 py-2">
         <Link href="/" className="text-3xl text-[#4E4949] cursor-pointer">MockAPI</Link>
         <div className="flex items-center gap-12">
-          <div className="bg-white/80 rounded-full flex gap-5 border border-gray-300 px-6 py-3 divide-x-2 divide-gray-200">
+          <div className="hidden bg-white/80 rounded-full sm:flex gap-5 border border-gray-300 px-6 py-3 divide-x-2 divide-gray-200">
             <Link
               href="#"
               className="capitalize text-md font-medium text-gray-700 pr-4"
@@ -26,3 +26,4 @@ export default function Navbar() {
     </header>
   );
 }
+
