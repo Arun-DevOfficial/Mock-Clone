@@ -100,10 +100,8 @@ export const forgetPassword = async (req, res) => {
     );
 
     // Todo: Send reset link via email
-    const resetLink = `${
-      process.env.DEVELOPEMENT_CLIENT_URL || "http://localhost:3000"
-    }/reset-password?token=${resetToken}`;
-    
+    const resetLink = `${process.env.PRODUCTION_CLIENT_URL}/reset-password?token=${resetToken}`;
+
     // Todo : To send a email to user
     await sendEmail({
       to: user.email,
@@ -114,7 +112,7 @@ export const forgetPassword = async (req, res) => {
 
     res.status(200).json({
       message: "Reset token generated and email sent",
-      resetToken, 
+      resetToken,
     });
   } catch (error) {
     res.status(500).json({
@@ -155,7 +153,7 @@ export const resetPassword = async (req, res) => {
     res.status(200).json({ message: "Password reset successful" });
   } catch (error) {
     res
-    .status(500)
-    .json({ error: "Password reset failed", details: error.message });
+      .status(500)
+      .json({ error: "Password reset failed", details: error.message });
   }
 };
