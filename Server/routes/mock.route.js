@@ -5,13 +5,16 @@ import {
   deleteMock,
   getMockById,
 } from "../controllers/mock.controller.js";
+import { authMiddleware } from "../middleware/authmiddleware.js";
 
 const router = express.Router();
 
-//Router: /api/mocks - Create a new mock response
-router.post("/new", createMock);
+// Public routes
 router.get("/all", getAllMocks);
-router.delete("/delete/:id", deleteMock);
 router.get("/response/:id", getMockById);
+
+// Protected routes (require authentication)
+router.post("/new", authMiddleware, createMock);
+router.delete("/delete/:id", authMiddleware, deleteMock);
 
 export default router;

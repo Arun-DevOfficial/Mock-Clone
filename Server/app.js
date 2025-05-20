@@ -3,6 +3,7 @@ import dbConnection from "./config/database.config.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import mockRoutes from "./routes/mock.route.js";
+import userRoutes from "./routes/user.route.js";
 dotenv.config();
 
 const app = express();
@@ -16,7 +17,7 @@ app.use(express.json());
 
 // App routes
 app.use("/api/mocks", mockRoutes);
-
+app.use("/api/auth", userRoutes);
 
 // Start the server with try-catch using async/await
 app.listen(port, async () => {
