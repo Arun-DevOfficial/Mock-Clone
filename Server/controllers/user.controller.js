@@ -4,6 +4,7 @@ import { configDotenv } from "dotenv";
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 import { sendEmail } from "../utils/EmailService.js";
+import { serialize } from "cookie";
 
 configDotenv(); // env variable access
 
@@ -35,6 +36,7 @@ export const signup = async (req, res) => {
       .status(201)
       .json({ message: "Signup successful", user: { name: newUser.email } });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Signup failed", details: error.message });
   }
 };
@@ -42,7 +44,7 @@ export const signup = async (req, res) => {
 // Signin
 export const signin = async (req, res) => {
   try {
-    // Check for validation errors
+    // Validate input
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -50,32 +52,45 @@ export const signin = async (req, res) => {
 
     const { email, password } = req.body;
 
+    // Find user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Verify password
+    // Check password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Wrong password" });
     }
 
+    // Create token
     const token = jwt.sign(
       { userId: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      process.env.JWT_SECRET || "Guvi",
+      {
+        expiresIn: "1d",
+      }
     );
+    //process.env.NODE_ENV === "production" || true,
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: true, // ✅ MUST be true for SameSite=None
+      sameSite: "None", // ✅ MUST be None for cross-origin cookies
+      maxAge: 86400 * 1000,
+      path: "/",
+    });
 
+    // Send response
     res.status(200).json({
       message: "Signin successful",
-      user: { name: user.email, token },
+      token,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Signin failed", details: error.message });
   }
 };
-
 // Forget Password
 export const forgetPassword = async (req, res) => {
   try {

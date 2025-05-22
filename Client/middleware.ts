@@ -1,18 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
-// import { getAuthToken } from "@/utils/getAuth";
+import { NextRequest } from "next/server";
+import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
-// Todo : Implenenting redirect logic
-export function middleware(request: NextRequest) {
-  // Todo : retrieve a accessToken
-  const accessToken = "";
-  // Validate that whether true or false
-  if (!accessToken) {
-    return NextResponse.redirect(new URL("/signin", request.url));
-  }
+export function middleware(req: NextRequest) {
+  return withAuth(req);
 }
 
 export const config = {
   matcher: [
+    "/",
     "/design",
     "/design/view",
     "/design/view/:id*",

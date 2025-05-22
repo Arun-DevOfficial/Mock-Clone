@@ -16,7 +16,7 @@ export default function SignUp() {
   } = useForm<userTypes>({
     defaultValues: {
       email: "",
-      password:"",
+      password: "",
     },
   });
 
@@ -26,13 +26,17 @@ export default function SignUp() {
   const onSubmit = async (data: userTypes) => {
     try {
       // Send user data to server
-      const res = await axios.post("https://mock-clone.onrender.com/api/auth/signup", data);
+      const res = await axios.post(
+        "https://mock-clone.onrender.com/api/auth/signup",
+        data,
+        { withCredentials: true }
+      );
       // Validate user response
       if (res.status === 200) {
         router.push("/signin"); // navigate to Login page
       }
     } catch (error) {
-      console.error("Failed to dispatch username:", error);
+      console.error("Failed to dispatch signup:", error);
     }
   };
 

@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form";
 import { userTypes } from "@/types/users";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { setLocalStorage } from "@/features/userslice";
 import axios from "axios";
 
 export default function SignIn() {
@@ -21,7 +19,6 @@ export default function SignIn() {
     },
   });
 
-  const dispatch = useDispatch();
   const router = useRouter();
 
   // Login user
@@ -29,16 +26,15 @@ export default function SignIn() {
     try {
       // Send user data to server
       const res = await axios.post(
-        "https://mock-clone.onrender.com/api/auth/signin",
+        "http://localhost:4201/api/auth/signin",
         data
       );
       // Validate user response
       if (res.status === 200) {
-        dispatch(setLocalStorage(res.data));
         router.push("/"); // navigate to home page
       }
     } catch (error) {
-      console.error("Failed to dispatch username:", error);
+      console.error("Failed to dispatch signin:", error);
     }
   };
 
