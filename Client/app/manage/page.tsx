@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { fetchMocks } from "@/utils/server-actions";
 import { MockFormData } from "@/types/mock";
