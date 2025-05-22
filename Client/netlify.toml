@@ -1,7 +1,7 @@
 [build]
   command = "npm run build"
-  publish = ".next"
-  environment = { NODE_VERSION = "18", NEXT_PRIVATE_TARGET = "server" }
+  publish = "out"
+  environment = { NODE_VERSION = "18" }
 
 [functions]
   directory = "netlify/functions"
