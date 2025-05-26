@@ -19,7 +19,7 @@ const mockResponseSchema = new Schema({
   },
   httpBody: {
     type: Schema.Types.Mixed,
-    default: {},
+    default: [],
   },
   endpointUrl: {
     type: String,
