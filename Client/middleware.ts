@@ -1,9 +1,9 @@
+import { NextRequest } from "next/server";
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
-export default withAuth({
-  loginPage: "/api/auth/login",
-  isReturnToProtected: true,
-});
+export function middleware(req: NextRequest) {
+  return withAuth(req);
+}
 
 export const config = {
   matcher: [
@@ -13,7 +13,5 @@ export const config = {
     "/manage",
     "/design/confirmation",
     "/design/confirmation/:id*",
-    "!/api/auth/(.*)", // Exclude KindeAuth routes
-    "!/", // Explicitly exclude homepage
   ],
 };
