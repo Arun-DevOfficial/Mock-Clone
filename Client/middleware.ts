@@ -1,12 +1,8 @@
-import { NextRequest } from "next/server";
-import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-
-export function middleware(req: NextRequest) {
-  return withAuth(req);
-}
+export { withAuth as middleware } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
 export const config = {
   matcher: [
+    "/",
     "/design",
     "/design/view",
     "/design/view/:id*",
