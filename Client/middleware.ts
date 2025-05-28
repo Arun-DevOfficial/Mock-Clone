@@ -1,8 +1,8 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 
 export default withAuth({
-  loginPage: "/api/auth/login", // Redirect unauthenticated users here
-  isReturnToProtected: true, // Redirect back to the requested page after login
+  loginPage: "/api/auth/login",
+  isReturnToProtected: true,
 });
 
 export const config = {
@@ -14,5 +14,6 @@ export const config = {
     "/design/confirmation",
     "/design/confirmation/:id*",
     "!/api/auth/(.*)", // Exclude KindeAuth routes
+    "!/", // Explicitly exclude homepage
   ],
 };
