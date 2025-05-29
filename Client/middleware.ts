@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const isAuthenticated = req.cookies.get("accessToken")?.value;
-
+  console.log(isAuthenticated);
+  // Todo : validate user loggedin or not
   if (!isAuthenticated) {
     return NextResponse.redirect(new URL("/signin", req.url));
   }
