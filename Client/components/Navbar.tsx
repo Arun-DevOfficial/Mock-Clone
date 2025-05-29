@@ -8,7 +8,7 @@ export default async function Navbar() {
   const token: string | undefined = cookieStore.get("accessToken")?.value;
 
   const isAuthenticated = Boolean(token);
-
+  console.log("navbar token:", token, isAuthenticated);
   return (
     <header className="py-4 container mx-auto w-full max-w-[65%]">
       <nav className="flex items-center justify-between px-4 py-2">
@@ -42,8 +42,11 @@ export default async function Navbar() {
             </div>
           </div>
         ) : (
-          <Link href={"/sigin"}>
-            <Button className="text-md font-medium text-white py-3 px-6" size={"lg"}>
+          <Link href={"/signin"}>
+            <Button
+              className="text-md font-medium text-white py-3 px-6"
+              size={"lg"}
+            >
               Sign In
             </Button>
           </Link>

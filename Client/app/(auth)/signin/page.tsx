@@ -33,7 +33,7 @@ export default function SignIn() {
         }
       );
       // Validate user response
-      router.push("/"); // navigate to home page
+      router.push("/");
     } catch (error) {
       console.error("Failed to dispatch signin:", error);
     }
