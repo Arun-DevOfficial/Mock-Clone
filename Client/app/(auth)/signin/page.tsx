@@ -26,7 +26,7 @@ export default function SignIn() {
     try {
       // Send user data to server
       const res = await axios.post(
-        "http://localhost:4201/api/auth/signin",
+        "https://mock-clone.onrender.com/api/auth/signin",
         data,
         {
           withCredentials: true,

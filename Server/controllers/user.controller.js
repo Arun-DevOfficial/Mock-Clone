@@ -77,7 +77,6 @@ export const signin = async (req, res) => {
       sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
-
     // Respond success
     res.status(200).json({ message: "Signin successful" });
   } catch (error) {
