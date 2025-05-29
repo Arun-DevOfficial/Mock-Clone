@@ -27,10 +27,10 @@ export default function SignIn() {
       // Send user data to server
       await axios.post(
         "https://mock-clone.onrender.com/api/auth/signin",
-        data,
-        {
-          withCredentials: true,
-        }
+        data
+        // {
+        //   withCredentials: true,
+        // }
       );
       // Validate user response
       router.push("/");
