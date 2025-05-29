@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Eye, EyeOff, Lock, AlertCircle, CheckCircle2 } from "lucide-react";
 import axios from "axios";
 import { ResetPasswordTypes } from "@/types/users";
-import getAccessToken from "@/utils/getAccess";
+import getCookie from "@/utils/getCookie";
 
 export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,13 +46,14 @@ export default function ResetPasswordPage() {
   };
 
   const onSubmit = async (data: ResetPasswordTypes) => {
+    const accessToken: string | null = await getCookie("accessToken");
     try {
       await axios.patch(
         "https://mock-clone.onrender.com/api/auth/reset-password",
         data,
         {
           headers: {
-            Authorization: `Bearer ${getAccessToken()}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );

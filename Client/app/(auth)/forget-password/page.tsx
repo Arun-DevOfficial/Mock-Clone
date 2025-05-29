@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import Link from "next/link";
 import { ForgotPasswordType } from "@/types/users";
-import getAccessToken from "@/utils/getAccess";
+import getCookie from "@/utils/getCookie";
 
 export default function ForgotPasswordForm() {
   const [isEmailSent, setIsEmailSent] = useState(false);
@@ -32,7 +32,7 @@ export default function ForgotPasswordForm() {
   // Todo : To send a email to user
   const onSubmit = async (data: ForgotPasswordType) => {
     try {
-      const token: string = await getAccessToken();
+      const token: string | null = await getCookie("accessToken");
 
       await axios.post(
         "https://mock-clone.onrender.com/api/auth/forget-password",
