@@ -13,9 +13,9 @@ config();
 
 // Public routes
 router.get("/all", authMiddleware, getAllMocks);
-router.get("/response/:id", authMiddleware, getMockById);
+router.get("/response/:id", getMockById);
 
-// Protected routes (require authentication)
+// Protected routes
 router.post("/new", authMiddleware, createMock);
 router.delete("/delete/:id", authMiddleware, deleteMock);
 
