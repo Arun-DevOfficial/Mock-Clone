@@ -11,9 +11,20 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware for CORS
+const allowedOrigins = [
+  "https://mocky-clone.vercel.app",
+  "http://localhost:3000", // add more if needed
+];
+
 app.use(
   cors({
-    origin: "https://mocky-clone.vercel.app",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
