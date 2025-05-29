@@ -9,6 +9,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
+    console.log(token);
     setIsAuthenticated(!!token);
   }, []);
 
@@ -20,7 +21,7 @@ export default function Navbar() {
         </Link>
 
         {/* Wait for auth state to be determined */}
-        {isAuthenticated === null ? null : isAuthenticated ? (
+        {isAuthenticated ? (
           <div className="flex items-center gap-12">
             <div className="hidden bg-white/80 rounded-full sm:flex gap-5 border border-gray-300 px-6 py-3 divide-x-2 divide-gray-200">
               <Link
