@@ -71,13 +71,10 @@ export const signin = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    // Set cookie options
-    const isProduction = process.env.NODE_ENV === "production";
-
     res.cookie("accessToken", token, {
       HttpOnly: true,
-      Secure: isProduction,
-      SameSite: isProduction ? "Strict" : "Lax",
+      Secure: true,
+      SameSite: "None",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
