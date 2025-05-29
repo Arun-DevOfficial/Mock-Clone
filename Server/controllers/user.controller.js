@@ -44,47 +44,56 @@ export const signup = async (req, res) => {
 // Signin
 export const signin = async (req, res) => {
   try {
-    // Validate request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      if (!res.headersSent) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      return;
     }
 
     const { email, password } = req.body;
-
-    // Check if user exists
     const user = await User.findOne({ email });
+
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      if (!res.headersSent) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      return;
     }
 
-    // Validate password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Incorrect password" });
+      if (!res.headersSent) {
+        return res.status(401).json({ error: "Incorrect password" });
+      }
+      return;
     }
 
-    // Generate JWT
     const token = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
 
-    res.cookie("accessToken", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-    });
-    // Respond success
-    res.status(200).json({ message: "Signin successful" });
+    if (!res.headersSent) {
+      res.cookie("accessToken", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+
+      return res.status(200).json({ message: "Signin successful" });
+    }
   } catch (error) {
     console.error("Signin error:", error);
-    res.status(500).json({
-      error: "Signin failed",
-      ...(process.env.NODE_ENV !== "production" && { details: error.message }),
-    });
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: "Signin failed",
+        ...(process.env.NODE_ENV !== "production" && { details: error.message }),
+      });
+    }
   }
 };
 // Forget Password
