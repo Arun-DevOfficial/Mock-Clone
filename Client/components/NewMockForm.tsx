@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { addMock } from "@/features/mockSlice";
@@ -15,7 +14,6 @@ type accessKeyProps = {
 };
 
 export default function NewMockForm({ accessToken }: accessKeyProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const {
     register,
     handleSubmit,
@@ -26,11 +24,6 @@ export default function NewMockForm({ accessToken }: accessKeyProps) {
   const controllerRef = useRef<AbortController | null>(null);
   const cancelRef = useRef(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    setIsAuthenticated(!!token);
-  }, []);
-  console.log(accessToken);
   // Validate JSON format
   const validateJson = (value: string) => {
     if (!value) return true;
@@ -81,7 +74,7 @@ export default function NewMockForm({ accessToken }: accessKeyProps) {
           signal: controller.signal,
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${isAuthenticated}`, // Make sure this variable contains your JWT token
+            Authorization: `Bearer ${accessToken}`, // Make sure this variable contains your JWT token
           },
         }
       );

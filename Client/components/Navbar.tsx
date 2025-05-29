@@ -1,17 +1,13 @@
-"use client";
-
+"use server"
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { cookies } from "next/headers";
 
-export default function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+export default async function Navbar() {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
 
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-    setIsAuthenticated(!!token);
-  }, []);
+  const isAuthenticated = accessToken ? true : false;
 
   return (
     <header className="py-4 container mx-auto w-full max-w-[65%]">
@@ -45,10 +41,6 @@ export default function Navbar() {
                 New Mock
               </Link>
               <Button
-                onClick={() => {
-                  localStorage.removeItem("accessToken");
-                  window.location.href = "/signin";
-                }}
                 className="text-md font-medium text-white py-3 px-6"
                 size={"lg"}
               >
