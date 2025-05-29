@@ -27,10 +27,10 @@ export default function SignIn() {
       // Send user data to server
       const res = await axios.post(
         "https://mock-clone.onrender.com/api/auth/signin",
-        data
-        // {
-        //   withCredentials: true,
-        // }
+        data,
+        {
+          withCredentials: true,
+        }
       );
       localStorage.setItem("accessToken",res.data.token)
       // Validate user response
