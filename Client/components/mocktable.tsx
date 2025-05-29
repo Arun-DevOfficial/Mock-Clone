@@ -7,6 +7,7 @@ import { Eye } from "lucide-react";
 import { AlertDialogDemo } from "@/components/Alert";
 
 export default function MockTable({ data }: MockTableProps) {
+  
   // Todo: to view response from server
    const handleViewMock = (
     baseUrl: string | undefined,
