@@ -13,7 +13,8 @@ const port = process.env.PORT || 5000;
 // Middleware for CORS
 const allowedOrigins = [
   "https://mocky-clone.vercel.app",
-  "http://localhost:3000", // add more if needed
+  "http://localhost:3000", 
+  "https://mocky-clone.netlify.app"
 ];
 
 app.use(
