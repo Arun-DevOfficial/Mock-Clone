@@ -43,7 +43,7 @@ export default async function Navbar() {
           </div>
         ) : (
           <Link href={"/sigin"}>
-            <Button className="text-md font-medium text-neutral-800 hover:text-white py-3 px-6">
+            <Button className="text-md font-medium text-white py-3 px-6" size={"lg"}>
               Sign In
             </Button>
           </Link>
