@@ -1,14 +1,10 @@
+"use client";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { cookies } from "next/headers";
-import LogoutButton from "./LogoutButton";
 
-export default async function Navbar() {
-  const cookieStore = await cookies();
-  const token: string | undefined = cookieStore.get("accessToken")?.value;
+export default function Navbar() {
+  const isAuthenticated = localStorage.getItem("accessToken");
 
-  const isAuthenticated = Boolean(token);
-  console.log("navbar token:", token, isAuthenticated);
   return (
     <header className="py-4 container mx-auto w-full max-w-[65%]">
       <nav className="flex items-center justify-between px-4 py-2">
@@ -38,7 +34,14 @@ export default async function Navbar() {
               >
                 New Mock
               </Link>
-              <LogoutButton />
+              <Link href={"/signin"}>
+                <Button
+                  className="text-md font-medium text-white py-3 px-6"
+                  size={"lg"}
+                >
+                  Logout
+                </Button>
+              </Link>
             </div>
           </div>
         ) : (

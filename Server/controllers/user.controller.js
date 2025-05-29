@@ -49,8 +49,8 @@ export const signin = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        error: 'Validation failed',
-        details: errors.array()
+        error: "Validation failed",
+        details: errors.array(),
       });
     }
 
@@ -61,7 +61,7 @@ export const signin = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        error: 'User not found'
+        error: "User not found",
       });
     }
 
@@ -70,43 +70,43 @@ export const signin = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
-        error: 'Incorrect password'
+        error: "Incorrect password",
       });
     }
 
     // Validate JWT_SECRET
     if (!process.env.JWT_SECRET) {
-      throw new Error('JWT_SECRET is not defined');
+      throw new Error("JWT_SECRET is not defined");
     }
 
     // Generate JWT
     const token = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: '1d' }
+      { expiresIn: "1d" }
     );
 
     // Set cookie
-    res.cookie('accessToken', token, {
+    res.cookie("accessToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', 
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', 
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
-      path: '/' 
+      path: "/",
     });
 
     // Send success response
     return res.status(200).json({
       success: true,
-      message: 'Signin successful',
-      data: { userId: user._id, email: user.email }
+      message: "Signin successful",
+      data: { userId: user._id, email: user.email },
+      token,
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
-      error: 'Signin failed',
-      ...(process.env.NODE_ENV !== 'production' && { details: error.message })
+      error: "Signin failed",
+      ...(process.env.NODE_ENV !== "production" && { details: error.message }),
     });
   }
 };

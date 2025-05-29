@@ -25,13 +25,14 @@ export default function SignIn() {
   const onSubmit = async (data: userTypes) => {
     try {
       // Send user data to server
-      await axios.post(
+      const res = await axios.post(
         "https://mock-clone.onrender.com/api/auth/signin",
         data
         // {
         //   withCredentials: true,
         // }
       );
+      localStorage.setItem("accessToken",res.data.token)
       // Validate user response
       router.push("/");
     } catch (error) {
