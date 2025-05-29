@@ -44,56 +44,70 @@ export const signup = async (req, res) => {
 // Signin
 export const signin = async (req, res) => {
   try {
+    // Validate request body
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      if (!res.headersSent) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-      return;
+      return res.status(400).json({
+        success: false,
+        error: 'Validation failed',
+        details: errors.array()
+      });
     }
 
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
 
+    // Find user
+    const user = await User.findOne({ email });
     if (!user) {
-      if (!res.headersSent) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      return;
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
     }
 
+    // Validate password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      if (!res.headersSent) {
-        return res.status(401).json({ error: "Incorrect password" });
-      }
-      return;
+      return res.status(401).json({
+        success: false,
+        error: 'Incorrect password'
+      });
     }
 
+    // Validate JWT_SECRET
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined');
+    }
+
+    // Generate JWT
     const token = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: '1d' }
     );
 
-    if (!res.headersSent) {
-      res.cookie("accessToken", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 24 * 60 * 60 * 1000,
-      });
+    // Set cookie
+    res.cookie('accessToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', 
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', 
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: '/' 
+    });
 
-      return res.status(200).json({ message: "Signin successful" });
-    }
+    // Send success response
+    return res.status(200).json({
+      success: true,
+      message: 'Signin successful',
+      data: { userId: user._id, email: user.email }
+    });
+
   } catch (error) {
-    console.error("Signin error:", error);
-    if (!res.headersSent) {
-      res.status(500).json({
-        error: "Signin failed",
-        ...(process.env.NODE_ENV !== "production" && { details: error.message }),
-      });
-    }
+    return res.status(500).json({
+      success: false,
+      error: 'Signin failed',
+      ...(process.env.NODE_ENV !== 'production' && { details: error.message })
+    });
   }
 };
 // Forget Password
