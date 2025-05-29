@@ -2,10 +2,17 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Mail, AlertCircle, CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
+import {
+  Mail,
+  AlertCircle,
+  CheckCircle2,
+  ArrowRight,
+  Loader2,
+} from "lucide-react";
 import axios from "axios";
 import Link from "next/link";
-import {ForgotPasswordType} from "@/types/users"
+import { ForgotPasswordType } from "@/types/users";
+import getAccessToken from "@/utils/getAccess";
 
 export default function ForgotPasswordForm() {
   const [isEmailSent, setIsEmailSent] = useState(false);
@@ -21,16 +28,25 @@ export default function ForgotPasswordForm() {
       email: "",
     },
   });
- 
+
   // Todo : To send a email to user
   const onSubmit = async (data: ForgotPasswordType) => {
     try {
-      await axios.post("https://mock-clone.onrender.com/api/auth/forget-password",data)
-      // If successful, set email sent flag
+      const token: string = await getAccessToken();
+
+      await axios.post(
+        "https://mock-clone.onrender.com/api/auth/forget-password",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       setIsEmailSent(true);
     } catch (error) {
-        console.log(error);
-      // Handle error
+      console.log(error);
       setError("root.serverError", {
         type: "server",
         message: "Could not send reset link. Please try again.",
@@ -57,11 +73,12 @@ export default function ForgotPasswordForm() {
             <div className="text-left">
               <p className="font-medium">Check your inbox!</p>
               <p className="text-sm mt-1">
-                We{`'`}ve sent you an email with a link to reset your password. Please check your inbox and spam folder.
+                We{`'`}ve sent you an email with a link to reset your password.
+                Please check your inbox and spam folder.
               </p>
             </div>
           </div>
-          
+
           <button
             type="button"
             onClick={() => setIsEmailSent(false)}
@@ -95,7 +112,9 @@ export default function ForgotPasswordForm() {
                   type="email"
                   id="email"
                   className={`pl-10 pr-4 py-3 block w-full rounded-lg border ${
-                    errors.email ? "border-red-300 ring-red-100" : "border-gray-200 group-focus-within:border-emerald-400"
+                    errors.email
+                      ? "border-red-300 ring-red-100"
+                      : "border-gray-200 group-focus-within:border-emerald-400"
                   } focus:outline-none focus:ring-4 focus:ring-blue-50 transition-all duration-200`}
                   placeholder="Enter your email address"
                   {...register("email", {

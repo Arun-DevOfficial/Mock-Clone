@@ -27,7 +27,10 @@ export default function SignIn() {
       // Send user data to server
       const res = await axios.post(
         "http://localhost:4201/api/auth/signin",
-        data
+        data,
+        {
+          withCredentials: true,
+        }
       );
       // Validate user response
       if (res.status === 200) {

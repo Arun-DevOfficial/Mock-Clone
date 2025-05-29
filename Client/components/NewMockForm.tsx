@@ -1,118 +1,5 @@
-// "use client";
-// import { useForm } from "react-hook-form";
-// import { useDispatch } from "react-redux";
-// import { addMock } from "@/features/mockSlice";
-
-// import { MockFormData } from "../types/mock";
-// import axios from "axios";
-// import Loader from "./Loader";
-// import { useRouter } from "next/navigation";
-// import ConverToParse from "@/utils/converToParse";
-
-// export default function NewMockForm() {
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { isSubmitting },
-//   } = useForm<MockFormData>();
-//   const router = useRouter();
-//   const dispatch = useDispatch();
-
-//   const onSubmit = async (data: MockFormData): Promise<void> => {
-//     console.log(data);
-//     try {
-//       const parsedData = {
-//         ...data,
-//         httpHeader: data.httpHeader
-//           ? ConverToParse(data.httpHeader)
-//           : data.httpHeader,
-//         httpBody: data.httpBody ? ConverToParse(data.httpBody) : data.httpBody,
-//       };
-//       console.log(parsedData);
-//       const res = await axios.post(
-//         "https://mock-clone.onrender.com/api/mocks/new",
-//         parsedData
-//       );
-
-//       if (!res.data) {
-//         throw new Error("response data is empty");
-//       }
-
-//       dispatch(addMock(res.data));
-//       router.push(`/design/confirmation/${res?.data?.id}`);
-//     } catch (err) {
-//       console.error("Error submitting form:", err);
-//     }
-//   };
-
-//   return (
-//     <div className="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
-//       <form onSubmit={handleSubmit(onSubmit)}>
-//         <div className="md:space-x-4 mb-6 flex flex-col gap-2">
-//           <label htmlFor="API Name">API Name</label>
-//           <input type="text" />
-//         </div>
-
-//         {/* HTTP Headers */}
-//         <div className="mb-6">
-//           <div className="flex items-center justify-between mb-1">
-//             <label className="text-gray-700 text-sm font-medium">
-//               HTTP Headers
-//             </label>
-//             <span className="bg-gray-200 text-gray-600 text-xs px-2 py-0.5 rounded">
-//               OPTIONAL
-//             </span>
-//           </div>
-
-//           <textarea
-//             {...register("httpHeader")}
-//             style={{ minHeight: "75px" }}
-//             className="w-full border focus:outline-none border-gray-300 rounded px-3 py-2 h-24 font-mono text-sm focus:border-emerald-400"
-//             placeholder={'{"X-Foo-Bar":"Hello World"}'}
-//           />
-//           <p className="text-xs text-gray-500 mt-1">
-//             Customize the HTTP headers sent in the response. Define the headers
-//             as a JSON object.
-//           </p>
-//         </div>
-
-//         {/* HTTP Response Body */}
-//         <div className="mb-6">
-//           <div className="flex items-center justify-between mb-1">
-//             <label className="text-gray-700 text-sm font-medium">
-//               HTTP Response Body
-//             </label>
-//             <span className="bg-gray-200 text-gray-600 text-xs px-2 py-0.5 rounded">
-//               OPTIONAL
-//             </span>
-//           </div>
-
-//           <textarea
-//             {...register("httpBody")}
-//             className="w-full border border-gray-300 rounded px-3 py-2 h-32 font-mono text-sm focus:outline-none focus:border-emerald-400"
-//             style={{ minHeight: "220px" }}
-//             placeholder={
-//               '{\n  "identifier": "6904c00d7-75d0-413a-b84b-35e155444678",\n  "login": "John Doe"\n  },\n  "permissions": {\n    "roles": [\n      "moderator"\n    ]\n  }\n}'
-//             }
-//           />
-//         </div>
-
-//         {/* Action Button */}
-//         <div className="flex items-center">
-//           <button
-//             type="submit"
-//             className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 uppercase text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center min-w-48 shadow-md hover:shadow-lg disabled:cursor-not-allowed"
-//             disabled={isSubmitting}
-//           >
-//             {isSubmitting ? <Loader /> : "Generate Http Response"}
-//           </button>
-//         </div>
-//       </form>
-//     </div>
-//   );
-// }
-
 "use client";
+
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { addMock } from "@/features/mockSlice";
@@ -123,7 +10,11 @@ import Loader from "./Loader";
 import { useRouter } from "next/navigation";
 import ConverToParse from "@/utils/converToParse";
 
-export default function NewMockForm() {
+type accessKeyProps = {
+  accessToken: string | undefined;
+};
+
+export default function NewMockForm({ accessToken }: accessKeyProps) {
   const {
     register,
     handleSubmit,
@@ -180,7 +71,13 @@ export default function NewMockForm() {
       const res = await axios.post(
         "https://mock-clone.onrender.com/api/mocks/new",
         parsedData,
-        { signal: controller.signal }
+        {
+          signal: controller.signal,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`, // Make sure this variable contains your JWT token
+          },
+        }
       );
 
       if (!res.data) {

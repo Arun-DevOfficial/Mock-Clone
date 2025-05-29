@@ -6,7 +6,7 @@ import { MockFormData } from "@/types/mock";
 import MockTable from "@/components/mocktable";
 
 export default async function Home() {
-  let data: MockFormData[] = [];
+let data: MockFormData[] = [];
   try {
     data = await fetchMocks();
   } catch (error) {

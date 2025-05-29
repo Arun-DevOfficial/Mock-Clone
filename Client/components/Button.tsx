@@ -1,4 +1,9 @@
-import { ButtonProps } from "../types/types";
+type ButtonProps = {
+  children: React.ReactNode;
+  onClick?: () => Promise<void>;
+  className?: string;
+  disabled?: boolean;
+};
 
 export default function Button({
   children,
@@ -7,11 +12,7 @@ export default function Button({
   disabled = false,
 }: ButtonProps) {
   return (
-    <button
-      onClick={onClick}
-      className={className}
-      disabled={disabled}
-    >
+    <button onClick={onClick} className={className} disabled={disabled}>
       {children}
     </button>
   );

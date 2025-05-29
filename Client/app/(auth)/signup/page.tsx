@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { userTypes } from "@/types/users";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import axios from "axios";
 
 export default function SignUp() {
@@ -31,7 +30,7 @@ export default function SignUp() {
         data,
         { withCredentials: true }
       );
-      // Validate user response
+      //Validate user response
       if (res.status === 200) {
         router.push("/signin"); // navigate to Login page
       }
