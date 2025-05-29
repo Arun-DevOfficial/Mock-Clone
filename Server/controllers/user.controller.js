@@ -168,3 +168,12 @@ export const resetPassword = async (req, res) => {
       .json({ error: "Password reset failed", details: error.message });
   }
 };
+
+export const logout = (req, res) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
+  res.status(200).json({ message: "Logout successful" });
+};

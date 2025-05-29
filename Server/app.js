@@ -2,7 +2,7 @@ import express from "express";
 import dbConnection from "./config/database.config.js";
 import dotenv from "dotenv";
 import cors from "cors";
-import cookieParser from "cookie-parser"; 
+import cookieParser from "cookie-parser";
 import mockRoutes from "./routes/mock.route.js";
 import userRoutes from "./routes/user.route.js";
 dotenv.config();
@@ -11,13 +11,15 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware for CORS
-app.use(cors({
-  origin: "https://mocky-clone.vercel.app",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "https://mocky-clone.vercel.app",
+    credentials: true,
+  })
+);
 
 // Middleware to parse cookies
-app.use(cookieParser()); 
+app.use(cookieParser());
 
 // Middleware to parse JSON bodies
 app.use(express.json());

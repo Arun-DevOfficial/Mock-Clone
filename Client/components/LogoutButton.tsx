@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function LogoutButton() {
   const router = useRouter();
 
   async function handleLogout() {
-    await fetch("/api/logout");
+    await axios.post("https://mocky-clone.vercel.app/api/auth/logout");
     router.push("/signin");
   }
 

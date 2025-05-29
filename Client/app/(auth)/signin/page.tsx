@@ -25,15 +25,17 @@ export default function SignIn() {
   const onSubmit = async (data: userTypes) => {
     try {
       // Send user data to server
-       await axios.post(
-        "https://mock-clone.onrender.com/api/auth/signin",
+      const res = await axios.post(
+        "https://mocky-clone.vercel.app/api/auth/signin",
         data,
         {
           withCredentials: true,
         }
       );
       // Validate user response
-      router.push("/"); // navigate to home page
+      if (res.statusText === "ok") {
+        router.push("/"); // navigate to home page
+      }
     } catch (error) {
       console.error("Failed to dispatch signin:", error);
     }
