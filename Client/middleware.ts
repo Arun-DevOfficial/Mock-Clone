@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import getAccessToken from "./utils/getAccess";
 
-export function middleware(req: NextRequest) {
-  const isAuthenticated = req.cookies.get("accessToken")?.value;
-  console.log("AccessToken : ", isAuthenticated);
+export async function middleware(req: NextRequest) {
+  const isAuthenticated = await getAccessToken();
+  // Todo: Validate user login
   if (!isAuthenticated) {
     return NextResponse.redirect(new URL("/signin", req.url));
   }
-
   return NextResponse.next();
 }
 
